@@ -1,31 +1,35 @@
 var express = require('express');
 var router = express.Router();
+var pry = require('pryjs');
+var User = require('../../../models').User;
+var nodeFetch = require('node-fetch');
+const hat = require('hat');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
+// eval(pry.it);
 
 /* POST users listing. */
 router.post("/", function(req, res, next) {
-  require('crypto').randomBytes(48, function(err, buffer) {
-    var token = buffer.toString('hex');
-    });
-  if req.body.password === req.body.password_confirmation {
+  if (req.body.password === req.body.password_confirmation) {
     User.create({
-            email: req.body.email,
-            password: req.body.password,
-            password_confirmation: req.body.password_confirmation,
-            api_key: token
-      })
-      .then(user => {
-        res.setHeader("Content-Type", "application/json");
-        res.status(201).send(JSON.stringify(user.api_key));
-      })
-      .catch(error => {
-        res.setHeader("Content-Type", "application/json");
-        res.status(500).send({ error });
-      });
-  } else {
-    .then(error => {
+      email: req.body.email,
+      password: req.body.password,
+      api_key: hat()
+    })
+    .then(user => {
       res.setHeader("Content-Type", "application/json");
-      res.status(401).send(JSON.stringify(error));
+      res.status(201).send(JSON.stringify(user.api_key));
+    })
+    .catch(error => {
+      res.setHeader("Content-Type", "application/json");
+      res.status(500).send("User not created");
     });
+
+  } else {
+    res.setHeader("Content-Type", "application/json");
+    res.status(401).send(JSON.stringify("This didn't work"));
   };
 });
 
