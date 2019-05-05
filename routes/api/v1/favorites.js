@@ -17,7 +17,9 @@ favoritesRouter.post("/", function(req, res, next) {
       res.status(401).send(JSON.stringify("Invalid API Key"))
     } else {
       getFavorite(user, req.body.location, res)
-    };
+    } })
+  .catch(error => {
+    res.status(401).send(JSON.stringify("Could not retrieve favorite"))
   });
 });
 
