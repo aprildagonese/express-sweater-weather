@@ -8,15 +8,22 @@ var fetch = require('node-fetch');
 // eval(pry.it);
 
 /* POST favorite listing. */
-loginRouter.post("/", function(req, res, next) {
+favoritesRouter.post("/", function(req, res, next) {
   User.findOne({ where: { api_key: req.body.api_key } })
   .then(user => {
     if (user === null) {
       res.setHeader("Content-Type", "application/json");
-      res.status(401).send(JSON.stringify("Invalid API Key")
+      res.status(401).send(JSON.stringify("Invalid API Key"))
     } else {
-      res.setHeader("Content-Type", "application/json");
-      res.status(201).send(JSON.stringify(user.api_key));
+      var location = req.body.location
+      Location.findOrCreate({ where: {name: location} })
+      .then(([location, created]) => {
+        UserLocation.findOrCreate({ where: {UserId: user.id, LocationId: location.id} })
+        .then(([userLocation, created]) => {
+          res.setHeader("Content-Type", "application/json");
+          res.status(201).send(JSON.stringify({"message":`${location.name} has been added to your favorites`}));
+        })
+      })
     };
   });
 });

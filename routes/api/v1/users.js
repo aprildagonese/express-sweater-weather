@@ -8,7 +8,6 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 const someOtherPlaintextPassword = 'not_bacon';
-// eval(pry.it);
 
 /* POST users listing. */
 router.post("/", function(req, res, next) {
@@ -31,11 +30,6 @@ router.post("/", function(req, res, next) {
     res.setHeader("Content-Type", "application/json");
     res.status(401).send(JSON.stringify("This didn't work"));
   };
-});
-
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
 });
 
 module.exports = router;
