@@ -1,14 +1,17 @@
 var pry = require('pryjs');
-var nodeFetch = require('node-fetch');
-// eval(pry.it);
- class WeatherService {
-   constructor(lat, long) {
-     this.latLong = this.getLatLong(location)
-   }
+var fetch = require('node-fetch');
+var dotenv = require('dotenv').config();
 
-   getLatLong(location) {
-     new darkSkyService(location)
-   }
+ class WeatherService {
+
+   async getForecast(lat, long) {
+     var response = await fetch(`https://api.darksky.net/forecast/${process.env.darkSkyApiKey}/${lat},${long}`)
+     var data = await response.json()
+     var currently = data.currently
+     var hourly = data.hourly
+     var daily = data.daily
+     return {currently, hourly, daily}
+   };
  }
 
 module.exports = WeatherService;
