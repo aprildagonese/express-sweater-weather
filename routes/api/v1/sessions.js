@@ -2,7 +2,7 @@ var express = require('express');
 var loginRouter = express.Router();
 var pry = require('pryjs');
 var User = require('../../../models').User;
-var nodeFetch = require('node-fetch');
+var fetch = require('node-fetch');
 // eval(pry.it);
 
 /* POST login listing. */
