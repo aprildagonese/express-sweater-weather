@@ -1,6 +1,5 @@
 var express = require('express');
 var favoritesRouter = express.Router();
-var pry = require('pryjs');
 var User = require('../../../models').User;
 var Location = require('../../../models').Location;
 var UserLocation = require('../../../models').UserLocation;

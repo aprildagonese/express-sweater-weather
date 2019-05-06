@@ -1,4 +1,3 @@
-var pry = require('pryjs');
 var fetch = require('node-fetch');
 var dotenv = require('dotenv').config();
 // eval(pry.it);

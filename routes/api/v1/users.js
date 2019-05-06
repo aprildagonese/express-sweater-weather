@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var pry = require('pryjs');
 var User = require('../../../models').User;
 var fetch = require('node-fetch');
 const hat = require('hat');

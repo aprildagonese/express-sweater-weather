@@ -1,6 +1,5 @@
 var express = require('express');
 var forecastRouter = express.Router();
-var pry = require('pryjs');
 var fetch = require('node-fetch');
 var Forecast = require('../../../pojos/forecast');
 var User = require('../../../models').User;

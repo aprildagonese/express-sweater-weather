@@ -1,6 +1,3 @@
-'use strict';
-
-var pry = require('pryjs');
 var fetch = require('node-fetch');
 var GeolocationService = require('../services/GeolocationService');
 var WeatherService = require('../services/WeatherService');
