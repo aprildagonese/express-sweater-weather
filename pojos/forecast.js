@@ -1,27 +1,34 @@
 'use strict';
 
 var pry = require('pryjs');
-var nodeFetch = require('node-fetch');
+var fetch = require('node-fetch');
 var GeolocationService = require('../services/GeolocationService');
 var WeatherService = require('../services/WeatherService');
 
  class Forecast {
-   async forecast(location) {
-     var geoService = await new GeolocationService(location);
-     var latLong = await geoService.getLatLong();
-     var lat = await latLong.lat
-     var long = await latLong.long
-     var location = await latLong.location
 
-     var weatherService = await new WeatherService()
-     var weather = await weatherService.getForecast(lat, long)
-
-     var currently = weather.currently
-     var hourly = weather.hourly
-     var daily = weather.daily
-
-     return {location, currently, hourly, daily}
+   forecast(location) {
+     return new Promise((resolve, reject) => {
+       new GeolocationService(location).getLatLong()
+       .then(latLong => {
+         var lat = latLong.lat
+         var long = latLong.long
+         var location = latLong.location
+         return new WeatherService().getForecast(lat, long, location)
+       })
+       .then(forecast => {
+         var location = forecast.location
+         var currently = forecast.currently
+         var hourly = forecast.hourly
+         var daily = forecast.daily
+         resolve({location, currently, hourly, daily})
+       })
+       .catch(error => {
+         console.log("No good forecast")
+       })
+     })
    }
+
  }
 
 module.exports = Forecast;
