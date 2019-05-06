@@ -4,8 +4,30 @@ var pry = require('pryjs');
 var User = require('../../../models').User;
 var Location = require('../../../models').Location;
 var UserLocation = require('../../../models').UserLocation;
+var FavoritesForecast = require('../../../pojos/favoritesForecast');
 var fetch = require('node-fetch');
-// eval(pry.it);
+
+/* GET favorite listing. */
+favoritesRouter.get("/", function(req, res, next) {
+  User.findOne({ where: { api_key: req.body.api_key } })
+  .then(user => {
+    if (user === null) {
+      res.setHeader("Content-Type", "application/json");
+      res.status(401).send(JSON.stringify("Invalid API Key"))
+    } else {
+      console.log({ FavoritesForecast })
+      FavoritesForecast(user, res)
+      .then(favorites => {
+        res.setHeader("Content-Type", "application/json")
+        res.status(200).send(JSON.stringify({favorites}))
+      }).catch(console.error)
+    }
+  })
+  .catch(error => {
+    res.status(401).send(JSON.stringify("Could not retrieve butts"))
+  });
+});
+
 
 /* POST favorite listing. */
 favoritesRouter.post("/", function(req, res, next) {
